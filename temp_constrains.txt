@@ -1,36 +1,8 @@
-1
-yellow
-Norwegian
-Kit Kats
-water
-fox
+SOLUTION
 
-2
-blue
-Ukrainian
-Hershey bars
-tea
-horse
-
-
-3
-red
-Englishman
-Smarties
-milk
-snails
-
-4
-ivory
-Spaniard
-Snickers
-orange juice
-dog
-
-
-5
-green
-Japanese
-Milky Ways
-coffee
-zebra
+1               2               3               4               5
+yellow          Hershey bars    Englishman      dog             coffee
+fox             tea             Smarties        Snickers        Milky Ways
+Norwegian       blue            milk            ivory           zebra
+water           horse           red             Spaniard        Japanese
+Kit Kats        Ukrainian       snails          orange juice    green
