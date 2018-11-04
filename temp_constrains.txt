@@ -1,0 +1,36 @@
+1
+yellow
+Norwegian
+Kit Kats
+water
+fox
+
+2
+blue
+Ukrainian
+Hershey bars
+tea
+horse
+
+
+3
+red
+Englishman
+Smarties
+milk
+snails
+
+4
+ivory
+Spaniard
+Snickers
+orange juice
+dog
+
+
+5
+green
+Japanese
+Milky Ways
+coffee
+zebra
