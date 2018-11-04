@@ -1,30 +1,4 @@
-def main():
-    csp = CSP('constrains.txt')
-    print 'PROBLEM DEFINITION\n'
-    print 'Variables: '
-    print 'COLORS: ', csp.COLORS
-    print 'NATIONALITIES', csp.NATIONALITIES
-    print 'CANDIES', csp.CANDIES
-    print 'DRINKS', csp.DRINKS
-    print 'PETS', csp.PETS
-
-    print '\nConstrains: '
-    with open("constrains.txt") as f:
-        print f.read()
-
-    solution = csp.backtracking_search()
-    while True:
-        resp = raw_input('See the Solution? (y/n)')
-        if resp == 'N' or resp == 'n':
-            return
-        elif resp == 'Y' or resp == 'y':
-            ans = [['1'], ['2'], ['3'], ['4'], ['5']]
-            for name, num in solution.items():
-                ans[num-1].append(name)
-            print '\nSOLUTION\n'
-            for i in xrange(6):
-                print('{:<15s} {:<15s} {:<15s} {:<15s} {:<15s}'.format(ans[0][i], ans[1][i], ans[2][i], ans[3][i], ans[4][i]))
-            return
+from assignment import *
 
 
 class CSP:
@@ -156,7 +130,7 @@ class CSP:
         r_index = self.get_index(r_var)
 
         if l_value + 1 in self.domains[r_index]:
-            self.domains[r_index] =[l_value + 1]
+            self.domains[r_index] = [l_value + 1]
             return True
         return False
 
@@ -168,51 +142,3 @@ class CSP:
             self.domains[r_index] = [l_value - 1]
             return True
         return False
-
-
-class Assignment:
-    def __init__(self, csp):
-        self.csp = csp
-        self.solution = {}
-
-        domains = self.csp.domains
-        for i in xrange(25):
-            if len(domains[i]) <= 0:
-                print "Invalid domain"
-            elif len(domains[i]) == 1:
-                self.solution[self.csp.get_name(i)] = domains[i][0]
-        # self.conflict_set = {}
-        # for name in self.csp.values:
-        #     self.conflict_set[name] = []
-
-    # def add_conflict(self, target_var, var):
-    #     self.conflict_set[target_var].append(var)
-    #
-    # def pop_conflict(self, var):
-    #     if self.conflict_set[var]:
-    #         return self.conflict_set[var].[-1]
-
-    def is_complete(self):
-        return len(self.solution) == 25
-
-    def assign(self, var, value):
-        self.solution[var] = value
-
-    def reparo(self, var):
-        del self.solution[var]
-
-    def select_unassigned_variables(self):
-        unassigned = set(self.csp.keys.keys()) - set(self.solution.keys())
-        return unassigned.pop()
-
-    def is_consistent_with(self, var):
-        if not self.csp.all_diff(var):
-            return False
-        for cons in self.csp.constrains[var]:
-            if not cons[0](var, cons[1]):
-                return False
-        return True
-
-
-if __name__ == '__main__':
-    main()
