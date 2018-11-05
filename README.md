@@ -16,3 +16,5 @@ Consider the following logic puzzle: In five houses, each with a different color
 * Milk is drunk in the middle house.
 
 Discuss different representations of this problem as a CSP. Why would one prefer one repre- sentation over another?
+
+Run "python main.py" to see the solution. 
