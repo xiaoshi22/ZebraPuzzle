@@ -1,4 +1,6 @@
 # Zebra Puzzle
+Run "python main.py" to see the solution to Zebra Puzzle shown below. 
+
 Consider the following logic puzzle: In five houses, each with a different color, live five persons of different nationalities, each of whom prefers a different brand of candy, a different drink, and a different pet. Given the following facts, the questions to answer are “Where does the zebra live, and in which house do they drink water?”
 
 * The Englishman lives in the red house.
@@ -16,5 +18,3 @@ Consider the following logic puzzle: In five houses, each with a different color
 * Milk is drunk in the middle house.
 
 Discuss different representations of this problem as a CSP. Why would one prefer one repre- sentation over another?
-
-Run "python main.py" to see the solution. 
