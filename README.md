@@ -18,4 +18,4 @@ following facts, the questions to answer are “Where does the zebra live, and i
 * The Japanese eats Milky Ways.
 * Kit Kats are eaten in a house next to the house where the horse is kept.
 * Coffee is drunk in the green house.
-* Milk is drunk in the middle house.
+* Milk is drunk in the middle house. 
