@@ -19,5 +19,3 @@ following facts, the questions to answer are “Where does the zebra live, and i
 * Kit Kats are eaten in a house next to the house where the horse is kept.
 * Coffee is drunk in the green house.
 * Milk is drunk in the middle house.
-
-Discuss different representations of this problem as a CSP. Why would one prefer one representation over another?
