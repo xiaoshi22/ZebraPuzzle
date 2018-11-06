@@ -24,19 +24,20 @@ def main():
     with open("constrains.txt") as f:
         print f.read()
 
+    resp1 = raw_input('See the Solution? (yes/no)')
     while True:
-        resp1 = raw_input('See the Solution? (y/n)')
-        if resp1 == 'N' or resp1 == 'n':
+        if resp1 == 'no':
             return
-        elif resp1 == 'Y' or resp1 == 'y':
+        elif resp1 == 'yes':
+            resp2 = raw_input('With forward checking? (yes/no)')
             while True:
-                resp2 = raw_input('With forward checking? (y/n)')
                 start = time.time()
-                if resp2 == 'N' or resp2 == 'n':
+                if resp2 == 'no':
                     search_agent = SearchAgent(csp, False)
-                elif resp2 == 'Y' or resp2 == 'y':
+                elif resp2 == 'yes':
                     search_agent = SearchAgent(csp, True)
                 else:
+                    resp2 = raw_input('Please enter yes or no. ')
                     continue
                 solution = search_agent.backtracking_search()
                 exe_time = time.time() - start
@@ -53,6 +54,8 @@ def main():
                                                                            ans[4][i]))
                 print '\nExecution time: ', exe_time, 's'
                 return
+        else:
+            resp1 = raw_input('Please enter yes or no. ')
 
 
 if __name__ == '__main__':
