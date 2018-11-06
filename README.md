@@ -1,7 +1,10 @@
 # Zebra Puzzle
-Run "python main.py" to see the solution to Zebra Puzzle shown below. 
+Run "python main.py" to see the solution to Zebra Puzzle shown below. Our search agent uses the backtracking algorithm 
+with forward checking. (No conflicted sets is applied for now.)  
 
-Consider the following logic puzzle: In five houses, each with a different color, live five persons of different nationalities, each of whom prefers a different brand of candy, a different drink, and a different pet. Given the following facts, the questions to answer are “Where does the zebra live, and in which house do they drink water?”
+Consider the following logic puzzle: In five houses, each with a different color, live five persons of different 
+nationalities, each of whom prefers a different brand of candy, a different drink, and a different pet. Given the 
+following facts, the questions to answer are “Where does the zebra live, and in which house do they drink water?”
 
 * The Englishman lives in the red house.
 * The Spaniard owns the dog.

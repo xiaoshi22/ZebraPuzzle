@@ -1,6 +1,3 @@
-from assignment import *
-
-
 class CSP:
     COLORS = ["red", "green", "yellow", "blue", "ivory"]
     NATIONALITIES = ["Englishman", "Spaniard", 'Norwegian', "Ukrainian", "Japanese"]
@@ -56,31 +53,6 @@ class CSP:
                 else:
                     print "Undefined constraint func in CSP.__init__"
 
-    def backtracking_search(self):
-        self.node_consistency()
-        assignment = Assignment(self)
-        return self.backtrack(assignment)
-
-    def backtrack(self, assignment):
-        if assignment.is_complete():
-            return assignment.solution
-        var = assignment.select_unassigned_variables()
-        for value in self.domains[self.get_index(var)]:
-            prev_domains = [i[:] for i in self.domains]
-            assignment.assign(var, value)
-            self.set_domain(var, [value])
-            if assignment.is_consistent_with(var):
-                res = self.backtrack(assignment)
-                if res is not None:
-                    return res
-            assignment.reparo(var)
-            self.domains = prev_domains
-        return None
-
-    def node_consistency(self):
-        for constraint in self.unary_constrains:
-            self.located_in(constraint[0], constraint[2])
-
     def get_index(self, var_name):
         return self.keys[var_name]
 
@@ -101,16 +73,17 @@ class CSP:
                 return False
         return True
 
-    def in_the_same_house(self, l_var, r_var):
+    def in_the_same_house(self, l_var, r_var, with_fc):
         l_value = self.domains[self.get_index(l_var)][0]
         r_index = self.get_index(r_var)
         if l_value in self.domains[r_index]:
-            self.domains[r_index] = [l_value]
+            if with_fc:
+                self.domains[r_index] = [l_value]
             return True
         else:
             return False
 
-    def next_to(self, l_var, r_var):
+    def next_to(self, l_var, r_var, with_fc):
         l_value = self.domains[self.get_index(l_var)][0]
         r_index = self.get_index(r_var)
         temp = []
@@ -120,25 +93,28 @@ class CSP:
         if l_value + 1 in self.domains[r_index]:
             temp.append(l_value + 1)
         if temp:
-            self.domains[r_index] = temp
+            if with_fc:
+                self.domains[r_index] = temp
             return True
         else:
             return False
 
-    def to_the_left_of(self, l_var, r_var):
+    def to_the_left_of(self, l_var, r_var, with_fc):
         l_value = self.domains[self.get_index(l_var)][0]
         r_index = self.get_index(r_var)
 
         if l_value + 1 in self.domains[r_index]:
-            self.domains[r_index] = [l_value + 1]
+            if with_fc:
+                self.domains[r_index] = [l_value + 1]
             return True
         return False
 
-    def to_the_right_of(self, l_var, r_var):
+    def to_the_right_of(self, l_var, r_var, with_fc):
         l_value = self.domains[self.get_index(l_var)][0]
         r_index = self.get_index(r_var)
 
         if l_value - 1 in self.domains[r_index]:
-            self.domains[r_index] = [l_value - 1]
+            if with_fc:
+                self.domains[r_index] = [l_value - 1]
             return True
         return False
