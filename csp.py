@@ -30,7 +30,7 @@ class CSP:
         self.unary_constrains = []
         self.constrains = {}
         for var in self.keys.keys():
-            self.constrains[var] = []
+            self.constrains[var] = [[var, self.all_diff, None]]
 
         with open(constrains_file) as f:
             for line in f:
@@ -39,17 +39,17 @@ class CSP:
                 if temp[1] == 'located in':
                     self.unary_constrains.append([temp[0], self.located_in, int(temp[2])])
                 elif temp[1] == 'in the same house':
-                    self.constrains[temp[0]].append([self.in_the_same_house, temp[2]])
-                    self.constrains[temp[2]].append([self.in_the_same_house, temp[0]])
+                    self.constrains[temp[0]].append([temp[0], self.in_the_same_house, temp[2]])
+                    self.constrains[temp[2]].append([temp[2], self.in_the_same_house, temp[0]])
                 elif temp[1] == 'next to':
-                    self.constrains[temp[0]].append([self.next_to, temp[2]])
-                    self.constrains[temp[2]].append([self.next_to, temp[0]])
+                    self.constrains[temp[0]].append([temp[0], self.next_to, temp[2]])
+                    self.constrains[temp[2]].append([temp[2], self.next_to, temp[0]])
                 elif temp[1] == 'to the left of':
-                    self.constrains[temp[0]].append([self.to_the_left_of, temp[2]])
-                    self.constrains[temp[2]].append([self.to_the_right_of, temp[0]])
+                    self.constrains[temp[0]].append([temp[0], self.to_the_left_of, temp[2]])
+                    self.constrains[temp[2]].append([temp[2], self.to_the_right_of, temp[0]])
                 elif temp[1] == 'to the right of':
-                    self.constrains[temp[0]].append([self.to_the_right_of, temp[2]])
-                    self.constrains[temp[2]].append([self.to_the_left_of, temp[0]])
+                    self.constrains[temp[0]].append([temp[0], self.to_the_right_of, temp[2]])
+                    self.constrains[temp[2]].append([temp[2], self.to_the_left_of, temp[0]])
                 else:
                     print "Undefined constraint func in CSP.__init__"
 
@@ -65,27 +65,37 @@ class CSP:
     def located_in(self, var, value):
         self.domains[self.get_index(var)] = [value]
 
-    def all_diff(self, var_name):
+    def all_diff(self, var_name, v, alg):
         index = self.get_index(var_name)
+        if not self.domains[index]:
+            return False
+
         for i in xrange(len(self.domains)):
             if (i - i % 5 == index - index % 5) and (i != index) \
                     and (len(self.domains[i]) == 1) and (self.domains[i][0] == self.domains[index][0]):
                 return False
         return True
 
-    def in_the_same_house(self, l_var, r_var, with_fc):
-        l_value = self.domains[self.get_index(l_var)][0]
+    def in_the_same_house(self, l_var, r_var, alg):
         r_index = self.get_index(r_var)
+        if not self.domains[r_index]:
+            return False
+
+        l_value = self.domains[self.get_index(l_var)][0]
         if l_value in self.domains[r_index]:
-            if with_fc:
+            if alg:
                 self.domains[r_index] = [l_value]
+                return r_var
             return True
         else:
             return False
 
-    def next_to(self, l_var, r_var, with_fc):
-        l_value = self.domains[self.get_index(l_var)][0]
+    def next_to(self, l_var, r_var, alg):
         r_index = self.get_index(r_var)
+        if not self.domains[r_index]:
+            return False
+
+        l_value = self.domains[self.get_index(l_var)][0]
         temp = []
 
         if l_value - 1 in self.domains[r_index]:
@@ -93,28 +103,37 @@ class CSP:
         if l_value + 1 in self.domains[r_index]:
             temp.append(l_value + 1)
         if temp:
-            if with_fc:
+            if alg:
                 self.domains[r_index] = temp
+                return r_var
             return True
         else:
             return False
 
-    def to_the_left_of(self, l_var, r_var, with_fc):
-        l_value = self.domains[self.get_index(l_var)][0]
+    def to_the_left_of(self, l_var, r_var, alg):
         r_index = self.get_index(r_var)
+        if not self.domains[r_index]:
+            return False
+
+        l_value = self.domains[self.get_index(l_var)][0]
 
         if l_value + 1 in self.domains[r_index]:
-            if with_fc:
+            if alg:
                 self.domains[r_index] = [l_value + 1]
+                return r_var
             return True
         return False
 
-    def to_the_right_of(self, l_var, r_var, with_fc):
-        l_value = self.domains[self.get_index(l_var)][0]
+    def to_the_right_of(self, l_var, r_var, alg):
         r_index = self.get_index(r_var)
+        if not self.domains[r_index]:
+            return False
+
+        l_value = self.domains[self.get_index(l_var)][0]
 
         if l_value - 1 in self.domains[r_index]:
-            if with_fc:
+            if alg:
                 self.domains[r_index] = [l_value - 1]
+                return r_var
             return True
         return False

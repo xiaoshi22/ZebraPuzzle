@@ -1,10 +1,15 @@
 from assignment import *
+from collections import deque
 
 
 class SearchAgent:
-    def __init__(self, csp, with_forward_checking):
+    PAIN_BACKTRACKING = 0
+    FORWARD_CHECKING = 1
+    AC_3 = 2
+
+    def __init__(self, csp, algorithm):
         self.csp = csp
-        self.with_fc = with_forward_checking
+        self.alg = algorithm
 
     def backtracking_search(self):
         self.node_consistency()
@@ -21,9 +26,7 @@ class SearchAgent:
         var = assignment.select_unassigned_variables()
         for value in self.csp.domains[self.csp.get_index(var)]:
             prev_domains = [i[:] for i in self.csp.domains]
-            assignment.assign(var, value)
-            self.csp.set_domain(var, [value])
-            if self.is_consistent_with(var):
+            if self.is_consistent_with(assignment, var, value):
                 res = self.backtrack(assignment)
                 if res is not None:
                     return res
@@ -31,10 +34,26 @@ class SearchAgent:
             self.csp.domains = prev_domains
         return None
 
-    def is_consistent_with(self, var):
-        if not self.csp.all_diff(var):
-            return False
-        for cons in self.csp.constrains[var]:
-            if not cons[0](var, cons[1], self.with_fc):
-                return False
-        return True
+    def is_consistent_with(self, assignment, var, value):
+        assignment.assign(var, value)
+        self.csp.set_domain(var, [value])
+
+        if self.alg == self.PAIN_BACKTRACKING or self.alg == self.FORWARD_CHECKING:
+            for cons in self.csp.constrains[var]:
+                if not cons[1](var, cons[2], self.alg):
+                    return False
+            return True
+
+        elif self.alg == self.AC_3:
+            queue = deque(self.csp.constrains[var])
+            while queue:
+                cons = queue.popleft()
+                ret = cons[1](cons[0], cons[2], self.alg)
+                if ret:
+                    if ret is not True:
+                        for cons2 in self.csp.constrains[ret]:
+                            if cons2[2] != cons[0]:
+                                queue.append(cons2)
+                else:
+                    return False
+            return True
