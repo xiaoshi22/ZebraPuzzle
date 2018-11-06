@@ -24,7 +24,7 @@ def main():
     with open("constrains.txt") as f:
         print f.read()
 
-        resp = raw_input('Find a solution using ...  \n 1. Plain Backtracking \n 2. Forward Checking \n 3. AC-3 \n\n')
+        resp = raw_input('Find a solution using ...  \n 1. Plain Backtracking \n 2. Forward Checking \n 3. AC-3 \n\n ')
         while True:
             start = time.time()
             if resp == '1' or resp == '2' or resp == '3':
